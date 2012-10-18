@@ -7,10 +7,10 @@ public class Matrix {
 	int[] columns;
 	int N;
 	
-	public  Matrix( double[][] original, double[] B)
+	public  Matrix( double[][] original)
 	{
 		this.original = original;
-		N = original.length - 1;
+		N = original.length ;
 		upper = original.clone();
 		lower = new double[N][N];
 		columns = new int[N];
@@ -22,8 +22,18 @@ public class Matrix {
 	
 	public boolean triangulate()
 	{
-		for(int i = 0 ;  i < )
-		
+		for(int diag = 0; diag < N ; ++diag){
+			for(int j = diag ; j < N + 1  ; ++j){
+				for(int i = diag + 1 ;  i < N  ; ++i){
+					if(diag == j){
+						lower[i][j] = upper[i][j]/upper[diag][diag]; 
+					}
+					upper[i][j] = upper[i][j] - upper[diag][j] * lower[i][diag];
+				}
+			}
+			lower[diag][diag] = 1;
+		}
+
 		return true;
 	}
 	
