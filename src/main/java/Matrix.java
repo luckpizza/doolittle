@@ -6,6 +6,7 @@ public class Matrix {
 	double[][] lower;
 	int[] columns;
 	int N;
+	int addToSwap = 0;
 	
 	public  Matrix( double[][] original)
 	{
@@ -28,8 +29,12 @@ public class Matrix {
 					if(diag == j){
 						if(upper[diag][diag] != 0){
 							lower[i][j] = upper[i][j]/upper[diag][diag]; 
+							addToSwap = 0;
 						}else{
-							swapRow(diag, diag + 1);
+							addToSwap++;
+							if(addToSwap == N)
+								return false;
+							swapRow(diag, diag + addToSwap);
 							i--;
 							continue;
 						}
@@ -39,7 +44,6 @@ public class Matrix {
 			}
 			lower[diag][diag] = 1;
 		}
-
 		return true;
 	}
 	
@@ -53,8 +57,20 @@ public class Matrix {
 		lower[i] = tempRow;
 	}
 	
-	private void swapColumn(int i, int j){
-		
+	public void swapColumn(int i, int j){
+		double temp;
+		int col;
+		for(int idx = 0 ; idx < N ; ++idx ){
+			temp = upper[idx][i];
+			upper[idx][i] = upper[idx][j];
+			upper[idx][j] = temp;
+			temp = lower[idx][i];
+			lower[idx][i] = lower[idx][j];
+			lower[idx][j] = temp;
+		}
+		col = columns[i];
+		columns[i] = columns[j];
+		columns[j] = col;
 	}
 	
 	
