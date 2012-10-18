@@ -17,5 +17,21 @@ public class doolittle {
 		System.out.println("TRIANGULATING!");
 		m.triangulate();
 		System.out.println(m);
+		System.out.println("El vector Y es:");
+		System.out.println(printVector(m.calculateYVector()));
+
+		System.out.println("El vector X es:");
+		System.out.println(printVector(m.calculateXVector()));
+
+	}
+
+	
+
+	private static String printVector(double[] vector){
+		String ret = "";
+		for (double d : vector) {
+			ret += " " + d + " ";
+		}
+		return ret;
 	}
 }
