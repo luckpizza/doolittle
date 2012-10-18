@@ -26,7 +26,13 @@ public class Matrix {
 			for(int j = diag ; j < N + 1  ; ++j){
 				for(int i = diag + 1 ;  i < N  ; ++i){
 					if(diag == j){
-						lower[i][j] = upper[i][j]/upper[diag][diag]; 
+						if(upper[diag][diag] != 0){
+							lower[i][j] = upper[i][j]/upper[diag][diag]; 
+						}else{
+							swapRow(diag, diag + 1);
+							i--;
+							continue;
+						}
 					}
 					upper[i][j] = upper[i][j] - upper[diag][j] * lower[i][diag];
 				}
@@ -35,6 +41,20 @@ public class Matrix {
 		}
 
 		return true;
+	}
+	
+	private void swapRow(int i, int j){
+		double[] tempRow;
+		tempRow = upper[i];
+		upper[i] = upper[j];
+		upper[j] = tempRow;
+		tempRow = lower[i];
+		lower[i] = lower[j];
+		lower[i] = tempRow;
+	}
+	
+	private void swapColumn(int i, int j){
+		
 	}
 	
 	
