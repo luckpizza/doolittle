@@ -1,13 +1,23 @@
-
+/**
+ * Class that defines different matrixes for 
+ * doing the doolittle algorithm and been able to print 
+ * some interesting things.
+ * @author luckpizza
+ *
+ */
 public class Matrix {
 
-	double[][] original;
-	double[][] upper;
-	double[][] lower;
-	int[] columns;
+	final double[][] original;	//original matrix Ab
+	double[][] upper;		//upper matrix: will contain the factorized matrix
+	double[][] lower;		// will contain the m numbers used for the factorization
+	int[] columns;		//will contain the information if any cloumn swap has been done
 	int N;
 	int addToSwap = 0;
 	
+	/**
+	 * 
+	 * @param original matrix Ab to be factorized
+	 */
 	public  Matrix( double[][] original)
 	{
 		this.original = original;
@@ -18,7 +28,6 @@ public class Matrix {
 				upper[i][j] = original[i][j];
 			}
 		}
-//		upper = original.clone();
 		lower = new double[N][N];
 		columns = new int[N];
 		for(int i = 0 ; i < N ; ++i)
@@ -27,6 +36,10 @@ public class Matrix {
 		}
 	}
 	
+	/**
+	 * 	Triangulates the matrix using doolittle
+	 *  
+	 */
 	public boolean triangulate()
 	{
 		for(int diag = 0; diag < N ; ++diag){
@@ -63,6 +76,11 @@ public class Matrix {
 		lower[i] = tempRow;
 	}
 	
+	/**
+	 * Don't really get why would I want to swap columns... but if you want
+	 * @param i the index of one of the columns to be swapped 
+	 * @param j the other index of column
+	 */
 	public void swapColumn(int i, int j){
 		double temp;
 		int col;
@@ -78,6 +96,7 @@ public class Matrix {
 		columns[i] = columns[j];
 		columns[j] = col;
 	}
+	
 	
 	public double[] calculateYVector(){
 		double[] y = new double[N];
@@ -110,35 +129,28 @@ public class Matrix {
 		return x;
 	}
 	
+	private static String matrixToString(double[][] matrix)
+	{
+		String ret = "";
+		for (double[] row : matrix) {
+			for (double d : row) {
+				ret += " " + d + " ";
+			}
+			ret += " \n";
+		}
+		return ret;
+	}
+	
 	@Override
 	public String toString() {
 		
 		String ret = "original = \n";
-		
-		for (double[] row : original) {
-			for (double d : row) {
-				ret += " " + d + " ";
-			}
-			ret += " \n";
-		}
-
+		ret += matrixToString(original);
 		ret += "upper = \n";
+		ret += matrixToString(upper);
+		ret += "lower = \n";		
+		ret += matrixToString(lower);
 		
-		for (double[] row : upper) {
-			for (double d : row) {
-				ret += " " + d + " ";
-			}
-			ret += " \n";
-		}
-		
-		ret += "lower = \n";
-		
-		for (double[] row : lower) {
-			for (double d : row) {
-				ret += " " + d + " ";
-			}
-			ret += " \n";
-		}
 		ret += "\n columnas = \n";
 		for (int d : columns) {
 			ret += " " + d + " ";
